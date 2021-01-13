@@ -25,3 +25,4 @@ background_color: Quì impostiamo il colore di sfondo della splash screen della 
 theme_color:  Dovrebbe corrispondere al colore del tema meta specificato nel titolo del documento.
 orientation: quì impostiamo l'orientamento verticale od orizzontale (landscape) della app.
 scope:
+ 
