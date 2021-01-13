@@ -9,3 +9,6 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
+//INSERIAMO IL CODICE QUI SOPRA NELL'HEAD DEL SITO CON LA SEGUENTE LINEA DI CODICE
+<link rel="manifest" href="/load.js">
