@@ -16,3 +16,7 @@ theme_color:  Dovrebbe corrispondere al colore del tema meta specificato nel tit
 orientation: quì impostiamo l'orientamento verticale od orizzontale (landscape) della app.
 scope:
  
+Ora salviamo e carichiamo il file manifest.json nella root e inseriamo il richiamo inserendo questo codice:
+
+<link rel="manifest" href="/manifest.json">
+nell'head del sito.
