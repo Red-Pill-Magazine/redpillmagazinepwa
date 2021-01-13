@@ -22,3 +22,6 @@
   "orientation" : "portrait-primary"
   "scope" : ""
 }
+
+//INSERIAMO IL RICHIAMO A QUESTO CODICE, INSERENDO NELL'HEAD DEL SITO CON LA SEGUENTE LINEA DI CODICE
+<link rel="manifest" href="/load.js">
