@@ -12,4 +12,6 @@ https://web.dev/install-criteria/
 
 https://web.dev/customize-install/
 
+Le procedure di customizzazione del codice e le procedure di collaudo dello stesso sono le medesime per tutti e tre i tutorial.
+
 TUTTI I LINK PRESENTI IN QUESTO REPOSITORY RIMANDANO ALLE FONTI ORIGINALI DALLE QUALI HO TRATTO IL CODICE DELLA PWA; PERTANTO QUESTO LAVORO NON E'FARINA DEL MIO SACCO :P
