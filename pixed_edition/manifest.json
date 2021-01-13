@@ -1,0 +1,38 @@
+{
+  "short_name": "###",
+  "name": "### ### ###",
+  "description": "###",
+  "icons": [
+    {
+      "src": "###.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "###.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#f47920",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#f47920",
+  "shortcuts": [
+    {
+      "name": "Ultimi post dal blog",
+      "short_name": "Blog",
+      "description": "Leggi le ultime novità sul blog",
+      "url": "/###.html",
+      "icons": [{ "src": "/###.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Contatti rapidi",
+      "short_name": "Contatti",
+      "description": "Contattaci direttamente dal tuo telefono",
+      "url": "/###.html",
+      "icons": [{ "src": "/###.png", "sizes": "192x192" }]
+    }
+  ]
+}
