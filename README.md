@@ -7,3 +7,9 @@ https://www.joomla.it/blog/8929-trasformiamo-il-nostro-sito-joomla-in-una-progre
 https://www.pixed.it/pixed-blog/joomla/118-come-trasformare-il-proprio-sito-joomla-in-una-pwa-progressive-web-app.html
 
 https://it.semrush.com/blog/cose-una-pwa-progressive-web-app/
+
+https://web.dev/install-criteria/
+
+https://web.dev/customize-install/
+
+TUTTI I LINK PRESENTI IN QUESTO REPOSITORY RIMANDANO ALLE FONTI ORIGINALI DALLE QUALI HO TRATTO IL CODICE DELLA PWA; PERTANTO QUESTO LAVORO NON E'FARINA DEL MIO SACCO :P
