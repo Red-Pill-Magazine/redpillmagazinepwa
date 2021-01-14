@@ -4,7 +4,7 @@ window.onload = () => {
 'use strict'; 
 if ('serviceWorker' in navigator) {
 navigator.serviceWorker
-.register('./service-worker.js');
+.register('./serviceworker.js');
 }
 }
 </script>
