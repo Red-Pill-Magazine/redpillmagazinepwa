@@ -1,25 +1,21 @@
-<!--Per incorporare il nostro manifest.json e iniziare a realizzare la nostra progressive web app-->
-<!--dobbiamo inserire, tra i tag <head> e </head> del sito da trasformare, le seguenti stringhe:-->
+<!--Inserire, tra i tag <head> e </head> del sito da trasformare, le seguenti stringhe:-->
 
-<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#cc194b"/>
+<link rel="manifest" href="/manifest.json">
 
-<!--Questo ultimo meta tag si inserisce per una questione di compatibilità con alcuni browser che non riuscirebbero a interpretare i colori di base della-->
-<!--pwa contenuti nel manifest.json.) Il file manifest.json dovrà essere posizionato nella root principale del sito web-->
-<!--ad esempio https://www.sitoweb.i/manifest.json-->
-<!--Completiamo le operazioni nell’<head> inserendo alcuni meta tag importanti e specifici: Favicon del Sito Web-->
+<!--Favicon del Sito Web-->
 
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
 <!--Meta Tag Specifici per iOS-->
 
-<link rel="apple-touch-icon" href="images/152x152.png">
 <meta name="apple-mobile-web-app-capable" content="yes"> 
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="PWA Esempio">
+<link rel="apple-touch-icon" href="/images/iconewpa/152x152px.png">
 
 <!--Meta Tag Specifici per OS Windows-->
 
 <meta name="application-name" content="PWA Esempio" />
-<meta name="msapplication-TileImage" content="images/144x144.png"> 
+<meta name="msapplication-TileImage" content="/images/iconewpa/144x144.png"> 
 <meta name="msapplication-TileColor" content="#cc194b">
