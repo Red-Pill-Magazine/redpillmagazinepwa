@@ -1,0 +1,309 @@
+Una Progressive Web App o PWA (termine coniato da Google) è un sito web che utilizza moderne tecnologie Web per offrire agli utenti un’esperienza mobile migliore rispetto ad un’app nativa iOS o Android.
+Le PWA sono essenzialmente delle applicazioni ibride, cioè sono una via di mezzo tra un sito web e un’applicazione per device mobile.
+La parola “progressive” sta per “progressione di un sito web" che tende a comportarsi come un’applicazione per dispositivi mobile. Sviluppare una PWA non richiede la conoscenza di linguaggi di programmazione come Objective C o Java (linguaggi utilizzati per lo sviluppo di applicazioni iOS e Android) perché il suo sviluppo richiede solo la conoscenza di linguaggi di scripting client-side.
+Le PWA, quindi, sono multipiattaforma proprio perché vengono sviluppate con tecnologie web come Html, Javascript e Json.
+Le PWA hanno l’obiettivo di offrire un’esperienza di navigazione superlativa in termini di performance e semplificazione della navigazione.
+A differenza di un’app mobile, le progressive web app non richiedono alcun intervento da parte dell’utente, che non deve scaricare e installare nulla e non gli viene richiesta nessuna azione da compiere (se non quella di installare l’icona della PWA sullo smartphone come una vera applicazione).
+Prima di passare alla fase operativa, bisogna precisare che ci sono dei requisiti minimi che il sito dovrà avere per poter essere definito una PWA:
+    • Protocollo SSL Attivo
+    • Sito responsive
+    • Presenza del Service Worker e funzionamento offline
+    • Presenza del file manifest
+    • Prestazioni e velocità del sito su reti lente al primo avvio (3g)
+    • Sito Cross Browser (Chrome, Safari, Mozilla, Opera, Edge)
+    • URL puliti e raggiungibili
+Se il tuo sito web ha tutti questi punti dalla sua, allora sei a buon punto e possiamo passare alla fase realizzativa.
+Come creare una Progressive Web Application
+Possiamo trasformare il sito web in una PWA con 2 semplici macro interventi:
+    • Creazione del file manifest.json
+    • Creazione e installazione del Service Worker
+Creazione del file manifest.json
+Il file manifest.json conterrà tutte le informazioni di base della Progressive Web Application.
+Di seguito, un pratico esempio che potrai utilizzare per il tuo sito cambiando, ovviamente, il percorso delle icone e le altre impostazioni di base.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+{
+"manifest_version": 1,
+"version": "1.0.0",
+"short_name": "PWA Esempio",
+"name": "sitoweb.it",
+"description": "La mia prima Progressive Web Application.",
+"icons": [
+{
+"src": "/PWA/images/512x512.png",
+"sizes": "512x512",
+"type": "image/png"
+},
+{
+"src": "/PWA/images/384x384.png",
+"sizes": "384x384",
+"type": "image/png"
+},
+{
+"src": "/PWA/images/192x192.png",
+"sizes": "192x192",
+"type": "image/png"
+},
+{
+"src": "/PWA/images/152x152.png",
+"sizes": "152x152",
+"type": "image/png"
+},
+{
+"src": "/PWA/images/144x144.png",
+"sizes": "144x144",
+"type": "image/png"
+},
+{
+"src": "/PWA/images/128x128.png",
+"sizes": "128x128",
+"type": "image/png"
+},
+{
+"src": "/PWA/images/96x96.png",
+"sizes": "96x96",
+"type": "image/png"
+},
+{
+"src": "/PWA/images/72x72.png",
+"sizes": "72x72",
+"type": "image/png"
+}
+],
+"start_url": ".", 
+"lang": "it-IT",
+"background_color": "#424242",
+"theme_color": "#cc194b",
+"display": "standalone",
+"orientation": "portrait-primary"
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Cosa abbiamo scritto nel json?
+    • versione del manifest
+    • nome abbreviato (comparirà sotto l’icona come una vera mobile app)
+    • descrizione
+    • tutti i formati delle icone
+    • la prima pagina della pwa
+    • la lingua parlata
+    • i colori da utilizzare per personalizzare il browser (background e colore del tema)
+    • la tipologia del display
+    • l’orientamento
+Per incorporare il nostro manifest.json e iniziare a realizzare la nostra progressive web app, dobbiamo inserire, tra i tag <head> e </head> del sito da trasformare, le seguenti stringhe:
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#cc194b"/>
+(Questo ultimo meta tag si inserisce per una questione di compatibilità con alcuni browser che non riuscirebbero a interpretare i colori di base della pwa contenuti nel manifest.json.)
+Il file manifest.json dovrà essere posizionato nella root principale del sito web, ad esempio https://www.sitoweb.it/manifest.json
+Completiamo le operazioni nell’<head> inserendo alcuni meta tag importanti e specifici:
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Favicon del Sito Web
+<link rel="icon" href="favicon.ico" type="image/x-icon" /> 
+Meta Tag Specifici per iOS
+<link rel="apple-touch-icon" href="images/152x152.png">
+<meta name="apple-mobile-web-app-capable" content="yes"> 
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="PWA Esempio">
+Meta Tag Specifici per OS Windows
+<meta name="application-name" content="PWA Esempio" />
+<meta name="msapplication-TileImage" content="images/144x144.png"> 
+<meta name="msapplication-TileColor" content="#cc194b">
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Creazione e installazione del Service Worker
+Non sarà così facile, invece, procedere alla creazione e all'installazione del Service Worker che, in pratica, non è altro che una nuova tecnologia javascript che sostituisce egregiamente la vecchia, ormai obsoleta e non più seguita tecnologia “application cache” o AppCache.
+Il Service Worker è il Core delle PWA. Lavora in background e si pone tra il sito web e la rete, un pò come se fosse un Server Proxy. Esso ci consentirà di offrire i tuoi contenuti anche in condizioni di assenza di rete e rendere, quindi, fruibile il contenuto del sito anche quando è offline o il dispositivo non è connesso a Internet.
+Il SW utilizza API asincrone e le sue enormi potenzialità sono in continua ascesa.
+Ma cosa fa un Service Worker? Include funzionalità come le notifiche push, la gestione della cache, la navigazione offline e la sincronizzazione in background.
+Iniziamo a sviluppare un semplice Service Worker; aprite il vostro editor di codice preferito e salvate un documento vuoto, nominandolo service-worker.js
+Al suo interno incollate questo script javascript:
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+var cacheName = 'pwa-nomesito';
+var filesToCache = [
+'/',
+'/index.html',
+'/css/stylesheet.css',
+'/images/pwa-logo.svg',
+'/js/core.js'
+]; 
+/* Avvia il Service Worker e Memorizza il contenuto nella cache */
+self.addEventListener('install', function(e) {
+e.waitUntil(
+caches.open(cacheName).then(function(cache) {
+return cache.addAll(filesToCache);
+})
+);
+}); 
+/* Serve i Contenuti Memorizzati quando sei Offline */
+self.addEventListener('fetch', function(e) {
+e.respondWith(
+caches.match(e.request).then(function(response) {
+return response || fetch(e.request);
+})
+);
+});
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Ora che abbiamo realizzato il Service Worker non ci rimane che richiamare lo script all’interno del sito web da trasformare in una PWA.
+Il Service Worker va posizionato nella root principale del sito, così come il manifest https://www.sitoweb.it/service-worker.js
+Questo passaggio è abbastanza semplice e si tratta di inserire nel footer (prima della chiusura del </body>) lo script che abbiamo preparato, eccolo:
+
+Esempio 1 - Inserire lo Script direttamente nel foglio HTML
+<script async>
+window.onload = () => {
+'use strict'; 
+if ('serviceWorker' in navigator) {
+navigator.serviceWorker
+.register('./service-worker.js');
+}
+}
+</script>
+
+Esempio 2 - Richiamare un file contenente lo script (nell’esempio core.js)
+<script src="js/core.js" async></script>
+
+È consigliabile inserirlo nel footer per non bloccare il parser della pagina (il rendering). Nell’esempio 2 ho inserito l’attributo “async” per caricare la risorsa javascript asincronicamente.
+Prima di passare al test di conformità e testare, appunto, che la nostra PWA non abbia errori, è giusto specificare che l’esempio riportato sopra si riferisce allo sviluppo di una semplice PWA su un sito di microscopiche dimensioni.
+L'esempio prevede il salvataggio in cache solo di una pagina html, un foglio di stile, il logo SVG e un file javascript. Si possono implementare anche font, immagini e ulteriori pagine statiche modificando il service-worker dell’esempio.
+
+Introduzione.
+Le PWA sono delle web app che utilizzano un insieme di nuove tecnologie, con l’obiettivo di migliorare l’esperienza utente. Utilizzano la tecnologia Web e la tecnologia Mobile.
+Si caratterizzano per:
+-Essere Affidabili: si caricano velocemente e funzionano anche con connessioni instabili.
+-Essere Rapide: rispondono velocemente alle iterazioni dell’utente.
+-Essere Coinvolgenti: si comportano come app native sul dispositivo utilizzato. 
+Ci permettono di realizzare web apps che possono far fronte alle mutevoli condizioni della connessione di rete. Ci permettono anche di realizzare web app più coinvolgenti, offendo agli utenti un’esperienza di utilizzo, simile alle app native. 
+Lo sviluppo di una pwa comporta un cambiamento di mentalità rispetto al modo tradizionale di sviluppo di una web app.
+Le tecnologie utilizzate per lo sviluppo di una pwa sono state progettate, in modo tale, che possano essere applicate solo se il browser è in grado di supportarle.
+Il che significa che se sviluppiamo una pwa, e questa viene visualizzata da un browser che non supporta le pwa, la web app continuerà a funzionare normalmente. 
+Funzionalità delle PWA.
+Che cosa costituisce esattamente una web app una Progressive Web App?
+Sostanzialmente le pwa sono normali web app, create con le tecnologie che già conosciamo: Html, Css, Javascript.
+Le nuove funzionalità, che possono essere utilizzate, permettono alle pwa di fare qualche passo avanti e offrire agli utenti un' esperienza migliore.
+Le pwa utilizzano un manifest file che contiene informazioni (metadati) che permettono al browser di sapere come la web app sarà visualizzata e come la stessa verrà avviata.
+Le pwa utilizzano i service workers, che fanno parte delle nuove tecnologie e funzionalità.
+I service workers permettono di intercettare le richieste HTTP da e verso la web app.
+I service workers permettono anche di memorizzare nella cache risorse, consentendo così di poter affrontare situazioni di scarsa connettività o addirittura di situazioni offline.
+Potremmo cosi evitare la comparsa della classica segnalazione non sei connesso a nessuna rete.
+Le pwa non sono solo un set di nuove funzionalità. Esse rappresentano una nuova metodologia per lo sviluppo di web apps.
+Le pwa possono rendere una web app più coinvolgente, affidabile, flessibile e persino più veloce.
+Le funzionalità di una pwa possono essere applicate a una web app esistente una alla volta.
+Essendo delle web app, le pwa sono individuabili dai motori di ricerca, potendo così raggiungere molti più utenti.
+Service Worker.
+ 
+Una delle caratteristiche di una pwa è la possibilità di funzionare offline.
+I service worker permettono a una pwa di funzionare offline. Un service worker è un file javascript che viene eseguito in background, in thread diverso dalla web app. Non è legato ad alcuna pagina web in particolare, e non ha accesso diretto al DOM. Possiamo pensare al service worker come a un proxy programmabile.
+Un service worker può intercettare tutte le richieste HTTP da e verso la web app. Per utilizzare un service worker, la web app deve essere servita utilizzando il protocollo HTTPS.
+Com’è utilizzato un service worker?
+Per dare una risposta, dobbiamo capire prima il ciclo di vita di un service worker. Per utilizzare il service worker, il primo step è la registrazione del service worker. Durante questa fase, il browser esegue il download del service worker, lo analizza e lo esegue. Se durante questa fase avvengono errori, la registrazione fallirà e il service worker sarà scartato. Se invece questa fase termina in modo positivo, la procedura d’installazione del service worker sarà avviata. Se la fase d’installazione del service worker si termina senza errori, il service worker sarà avviato. Una volta avviato il service worker potrà gestire gli eventi della web app. La registrazione del service worker va inserita all'interno della pagina HTML.
+Vediamo ora un esempio di registrazione di un service worker. 
+ 
+Vediamo che l'istruzione principale, controlla se il browser supporta i service worker. Solo se è supportato dal browser viene eseguita la chiamata alla registrazione del service worker. Nota: i service worker utilizzano gli oggetti promises. La chiamata a navigator.serviceWorker.register() ritorna una promise. Quindi solo se la promise si risolve, il service worker verrà registrato. I service worker sono event-driven. Uno degli eventi principali è l'evento fetch. Questo evento permette di intercettare tutte le richieste HTTP da e verso la web app. Vediamo un semplice esempio, che ci permette di capire la potenzialità di un service worker.
+Il codice seguente fa parte del file javascript che sarà utilizzato come service worker.
+ 
+Utilizzando l'evento fetch, possiamo controllare cosa viene richiesto dalla web app. In questo caso, se viene richiesto un file con estensione .txt, verrà sempre inviato come risposta il file /docs/info.txt. Questo frammento di codice, ci fa’ semplicemente capire che realmente abbiamo il controllo completo di qualunque richiesta HTTP della web app. 
+ 
+Caching.
+ 
+L'utilizzo delle Cache Api, garantiscono che le pagine di una web app siano caricate più rapidamente, utilizzando meno larghezza di banda.
+L'utilizzo dei service worker per la gestione della cache della web app è veramente potente. Permette di controllare esattamente come memorizzare le risorse nella cache.
+La potenzialità dei service worker risiede nella capacità di intercettare le richieste HTTP.
+Questa funzionalità, di intercettare le richieste HTTP, può essere utilizzata per fornire agli utenti risposte veloci, facendo ricorso alle risorse presenti nella cache.
+Questo ci da la libertà di scrivere la logica per decidere quali risorse devono essere memorizzate nella cache, per quanto tempo devono essere presenti nella cache, ecc.
+Quando un utente utilizza la web app per la prima volta, abbiamo visto che viene installato il service worker.
+Durante questa fase d’installazione si può utilizzare questo evento per memorizzare nella cache le risorse critiche per l'utilizzo della web app.
+Vediamo un esempio di codice per capire meglio. Questo codice fa parte del file javascript Service Worker.
+ 
+Il codice precedente utilizza l'evento install del service worker per memorizzare nella cache alcune risorse necessarie alla web app.
+Nota: se qualcuna delle risorse che si vogliono memorizzare nella cache, non si riesce a scaricare l'evento install non terminerà in modo regolare. Quindi non verrà registrato il service worker.
+Una volta che le risorse sono state aggiunte alla cache, esse sono disponibili alla web app. Per utilizzarle l'evento fetch s’incaricherà di farlo.
+Vediamo un esempio di codice.
+ 
+Questo esempio controlla che la risorsa richiesta sia presente nella cache. Se la risorsa è presente nella cache, restituisce la risorsa dalla cache, altrimenti restituisce la risorsa richiesta alla rete.
+Consideriamo ora il fatto seguente: Se viene chiesta una risorsa che non è presente nella cache, dovremmo fare sempre una richiesta alla rete. Sarebbe utile poter memorizzare nella cache una risorsa che non è presente nella cache, in modo di diminuire le richieste alla rete.
+Vediamo con un esempio di codice come possiamo risolvere questa situazione.
+ 
+Se analizziamo il codice, vediamo che per prima cosa viene controllato se la risorsa richiesta è stata memorizzata nella cache. Se troviamo la risorsa nella cache, utilizziamo quella risorsa.
+Se la risorsa non è disponibile nella cache, viene chiesto di scaricarla dalla rete. L'istruzione seguente è importante analizzarla. var requestToCache = event.request.clone(); Questa istruzione crea una copia esatta della risorsa richiesta. Essendo un oggetto STREAM, e dobbiamo passarla sia al browser sia alla cache, la cloniamo in modo di avere due STREAM.
+Così possiamo inviare la response al browser e in seguito alla cache. Per tenere aggiornata la cache dell'applicazione, è necessario aggiornare il nome assegnato alla cache.
+Quindi dobbiamo modificare il valore della variabile cacheName. Ora perché questa modifica abbia effetto, dobbiamo aggiornare il service worker, in altre parole il file javascript che registriamo.
+Ricordiamo che ogni volta che l'utente visita la web app, il browser esegue il download del service worker in background.
+Se trova una differenza in bytes tra il service worker attivo e quello scaricato, considererà quest'ultimo come nuovo.
+In questo modo aggiornerà il service worker ed eseguirà l'aggiornamento della cache dell'applicazione.
+
+Fetch Api.
+ Le fetch api sono una delle nuove funzionalità offerte dai browser moderni.
+L'evento fetch permette di intercettare tutte le richi8este HTTP da e verso la web app.
+Le fetch api permettono di gestire le richieste in modo asincrono, e son basate sugli oggetti promise. La chiamata fetch() ritornerà sempre un oggetto promise.
+Vediamo un esempio.
+ 
+Utilizziamo la parte .then() dell'oggetto promise finché aspettiamo che la promise risolva.
+Una volta che l'oggetto promise, risolverà avremo il valore di ritorno della promise, in questo caso un oggetto response.
+L'oggetto response ritornato dalla chiamata alla fetch() contiene tutta l'informazione che riguarda la richiesta, contiene anche la risposta dal network.
+Ricordiamo che un oggetto promise rappresenta l'eventuale risultato di una richiesta asincrona.
+Web App Manifest.
+Web App Manifest è un file json che contiene informazioni che riguardano la web app.
+Questo file permette all'utente di poter aggiungere la web app alla Home Screen del dispositivo.
+Permette anche di personalizzare la schermata iniziale della web app, i colori del tema e l'url d’inizio della web app.
+Vediamo un esempio di file manifest.json.
+ 
+Vediamo il significato di questi metadati.
+name: è la stringa che sarà visualizzata quando apparirà l'opzione di aggiungere la web app alla home screen.
+short_name: è la stringa che verrà utilizzata nella home screen quando la web app sarà installata.
+start_url: indica la pagina da utilizzare quando la web app viene avviata.
+display: indica il modo utilizzato per l'avvio della web app. theme_color: imposta il colore della barra degli indirizzi del browser.
+icons: determina l’icona da utilizzare quando la web app sarà aggiunta alla home screen.
+Per utilizzare il file manifest.json, si dovrà aggiungere in link a tutte le pagine della web app. Quindi nella sezione head del file html aggiungeremo l'istruzione:
+ 
+Web App Install Banner.
+E' la funzionalità presente nel browser, che consiste nel visualizzare la richiesta per installare la web app nella home screen del dispositivo.
+I requisiti dal browser per visualizzare l'install banner sono:
+-Deve esserci il file manifest.json
+-Nel manifest deve esercì la start_url
+-Una icona 144x144
+-La web app deve essere servita tramite protocollo HTTPS
+-L'utente deve aver visitato la web app almeno due volte con un intervallo minimo di cinque (5) minuti tra le due visite.
+Il motivo per il quale prima di mostrare l'install banner devono essere soddisfatti i requisiti, è quello di evitare che questa funzionalità diventi fastidiosa o comunque di disturbo per l'utente.
+Quando l'utente avvia la web app aggiunta alla home screen, sarà visualizzata una splash screen mentre il browser carica la pagina iniziale.
+Questa splash screen è generata dinamicamente dal browser, utilizzando le informazioni presente nel file manifest.
+Sono utilizzati i metadati indicati dal nome, il colore di sfondo indicato assieme all'icona indicata.
+Il valore indicato dal metadato display, indica come sarà visualizzata la web app nel dispositivo.
+Attualmente è possibile utilizzare uno dei seguenti valori: Fullscreen,standalone,minimal-ui,browser.
+Essendo opzionale, se non è indicato alcun valore, sarà utilizzato come valore predefinito browser.
+-fullscreen: la web app sarà avviata utilizzando tutta l'area disponibile.
+-standalone: mostrerà la web app come un’app nativa.
+-minimal-ui: simile a fullscreen, però con alcuni elementi della UI visibili.
+-browser: utilizza il browser di sistema.
+E' comunque possibile modificare il comportamento dell'install banner. Ad esempio è possibile evitare che sia visualizzato.
+Il codice seguente mostra questa possibilità.
+ 
+ Una Progressive Web App è una pagina web in grado di offrire una interfaccia e una esperienza utente simile a quella di una app nativa, ma senza richiedere l’installazione dall’app store. Una App Progressiva si compone di alcune funzioni core: le più importanti sono il Service Worker, il Manifest, la App Shell e la Network Strategy.
+Fino a qualche anno fa, utilizzando un device mobile, l’utente poteva scegliere solo tra due classi di applicazioni: le applicazioni mobile native (quindi scritte in codice nativo per Android o Iphone e scaricate dall’App Store) oppure le Web App, ossia pagine web che richiedevano un browser per funzionare, ma che, grazie a uno stile di programmazione evoluto, offrivano features responsive e un’interfaccia utente con cui cercavano di avvicinarsi molto all’esperienza offerta da una app nativa.
+Indice degli argomenti
+Cos’è una Progressive Web App
+Grazie ai continui miglioramenti introdotti in HTML5, CSS e Javascript, in questi ultimi tempi si è sempre più diffusa una terza alternativa che viene offerta all’utente di device mobili, ossia quella delle Progressive App. Le Progressive App sono app che funzionano in un browser, ma che hanno due particolarità che le distinguono nettamente dalle Web App di precedente generazione:
+
+    • l’esperienza utente (UI/UX) è praticamente indistinguibile da quella di una app nativa; 
+    • un insieme di funzionalità viene reso fruibile anche in assenza di connessione internet.
+
+Caratteristiche di una app progressiva
+Una app progressiva (PWA: Progressive Web App) è un termine coniato dagli sviluppatori Alex Russell e Frances Berriman, e rappresenta un set di best practice per rendere una pagina web il più simile possibile a una app nativa per device mobile, offrendo un’esperienza utente piacevole ed eliminando la necessità di dover passare da un processo di installazione. Inoltre, le PWA, pur essendo eseguite dentro a un browser, offrono la possibilità di creare un collegamento direttamente nella home dello smartphone, permettendo all’utente di richiamarle come delle vere e proprie app native. Questo risultato è ottenuto grazie all’impiego di diverse tecnologie di programmazione, le più importanti delle quali sono i Service Worker, il manifesto dell’app (Manifest) e l’impaginazione Responsive.
+Che cos’è un service worker
+La tecnologia che sta alla base di questo innovativo modo di creare pagine web è quella del service worker, un programma scritto in Javascript che viene eseguito parallelamente alla “solita” pagina web e che permette di arricchire la fruizione del documento web di funzionalità aggiuntive. Ma vediamo nel dettaglio di che cosa si tratta.
+Il service worker è un worker Javascript, ossia un servizio che viene eseguito in un suo thread e che non comunica direttamente con la struttura del documento della pagina (il cosiddetto DOM), ma che può accedervi solo grazie alla classica interfaccia Javascript di PostMessage. In questo modo il service worker può effettuare delle elaborazioni in background senza interferire con l’esperienza utente della pagina web, esattamente come accade nelle app mobile, dove l’utente interagisce con la pagina mentre un servizio in background esegue le elaborazioni necessarie alle operazioni sui dati e alla gestione dell’app.
+Il service worker sostituisce completamente quella che era la vecchia app cache. Il service worker deve essere installato e registrato, e ha bisogno di una connessione Https per funzionare correttamente. Una volta installato, il service worker può effettuare operazioni di connessione ai dati (“fetching”), che può immagazzinare e rendere disponibili anche per una interazione offline, permettendo all’utente di accedere in modo parziale a funzionalità dell’app anche se la connessione a internet è assente.
+Grazie al Service Worker, la pagina web può delegare a questo servizio in background attività che, altrimenti risulterebbero difficili da integrare con una fluida risposta agli input dell’utente, come ad esempio la gestione delle notifiche push, la sincronizzazione dei dati, e la risposta a eventi generati da applicazioni di terze parti.
+Il Manifest
+Il Manifest è una sorta di dichiarazione di alcune delle proprietà principali che permettono all’app di interfacciarsi all’ambiente software destinato ad ospitarla, ed è una feature che troviamo già presente nelle app native per device mobile.
+Nel caso dell’app progressiva, il Manifest contiene alcuni dei metadati chiave per l’esecuzione dell’app, che permettono al sistema operativo dello smartphone di interagire con la pagina web come se si trattasse di una app installata nativamente. Alcune delle proprietà gestite tramite il Manifest sono, ad esempio, l’orientamento iniziale dell’app e l’informazione se l’app debba essere eseguita o meno a dimensioni full screen, oltre alle informazioni necessarie allo user agent per l’installazione della web app e il suo nome. Il Manifest contiene inoltre informazioni sulle autorizzazioni che l’utente deve concedere affinché l’app possa eseguire correttamente quelle funzionalità che hanno bisogno di accedere a funzioni del sistema operativo con impatto sulla privacy (ad esempio, la geolocalizzazione del dispositivo) o a documenti salvati sullo storage dello smartphone.
+Responsive App Shell
+L’ultima caratteristica delle app progressive è l’implementazione di una interfaccia Responsive. Il design Responsive non è una novità propria delle PWA: è una tecnica di realizzazione dell’interfaccia utente che risale al periodo dell’apparizione sul mercato dei primi smartphone. Consiste nel creare pagine e controlli che si ridimensionano automaticamente a seconda della grandezza dello schermo su cui vengono eseguite, in modo che l’esperienza utente risulti piacevole su qualsiasi dispositivo la pagina venga visualizzata. Il design responsive è stato inizialmente implementato nei siti web con una combinazione di tecniche CSS, Javascript e HTML per poi evolversi in veri e propri framework come Bootstrap o React.
+Nel contesto della Web App Progressive, però, sebbene il Responsive Design non sia di per sé una novità tecnologica, assume invece nuove connotazioni per sfruttare le potenzialità offerte dalla WPA. Nel contesto WPA, infatti, non si parla soltanto di Responsive web design, ma di una vera e propria Responsive Shell, o App Shell.
+L’App Shell è lo scheletro minimale dell’app che stiamo andando a confezionare, e permette il caricamento di tutte quelle che saranno le funzionalità base dell’app, a cui poi potranno essere caricate, progressivamente, tutte le altre risorse necessarie alle operazioni che l’utente deciderà di effettuare, tramite un efficiente meccanismo di lazy loading. Stiamo quindi parlando di un innovativo pattern nella costruzione dell’architettura di una pagina web, che permette di effettuare un download iniziale solo delle risorse strettamente necessarie al funzionamento dell’app, evitando così noiose operazioni di installazione dall’App Store.
+Una App Shell si compone di tre sezioni fondamentali:
+    • la Critical Inline Style: semplificando, l’equivalente di quella che in una pagina web è la sezione head, contenente le specifiche CSS dell’app; 
+    • la sezione HTML, che definisce il vero e proprio corpo (Document Object Model) dell’app; 
+    • la sezione dei Critical Script, che si occupa di richiamare gli script Javascript necessari al funzionamento dell’app.
+L’esecuzione degli script viene gestita attraverso il duplice meccanismo dell’esecuzione asincrona e differita: l’attivazione asincrona (async) permette di eseguire lo script in maniera trasparente per l’utente, mentre la specifica defer permette di gestire eventuali problemi di ordine di download degli script, evitando conflitti di priorità nell’esecuzione degli script.
+La caratteristica principale della App Shell è di permettere all’app di godere di un subset di funzionalità eseguibili anche mentre l’app è offline, o sotto una copertura internet di bassa qualità. Questo risultato è ottenuto grazie al meccanismo della Network Strategy.
+La Network Strategy
+La Network Strategy (o Workbox Strategy) entra in gioco per permettere al Service Worker di effettuare decisioni riguardanti il caricamento dei dati. Per poter permettere all’app di funzionare anche offline, il Service Worker deve infatti definire delle priorità di caricamento dati che gli consentano di gestire in modo ottimale anche le funzioni dell’app che devono funzionare in assenza di collegamento internet.
+La Network Strategy permette infatti al Service Worker di decidere in autonomia se caricare le risorse che servono a svolgere un determinato processo da una cache offline oppure se andarle a reperire da un endpoint online, che richiede quindi una connessione internet attiva. Nel caso che le risorse vengano reperite dalla cache, un sistema di aggiornamenti periodici a connessione disponibile garantisce che i dati presenti in cache siano coerenti con l’interfaccia della funzionalità offline.
